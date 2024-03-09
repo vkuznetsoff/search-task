@@ -1,0 +1,16 @@
+.usersList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* отображение пользователей в виде строк,
+  добавляем перенос строк и отсуп между колонками*/
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 15px;
+}
+
+.empty {
+  text-align: center;
+  color: grey
+}
