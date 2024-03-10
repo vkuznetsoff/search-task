@@ -1,10 +1,8 @@
 import { useState, useEffect, useContext, ChangeEvent, FormEvent } from "react";
-import "./styles.css";
 import { SearchContext } from "../SearchContext";
 import { ISearchContext } from "../../types/types";
 import { useDebounce } from "../../hooks/useDebounce";
-
-// const URL = "https://dummyjson.com/users/search?q=";
+import "./styles.css";
 
 
 const SearchForm: React.FC<{}> = () => {
@@ -21,7 +19,6 @@ const SearchForm: React.FC<{}> = () => {
 
   useEffect(() => {
     setQuery(debounceQuery)
-    // setLoading(false)
   }, [debounceQuery]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {    
