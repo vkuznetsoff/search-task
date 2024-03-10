@@ -1,71 +1,52 @@
-import { useState, useEffect, useContext, useCallback } from "react";
+import { useState, useEffect, useContext, ChangeEvent, FormEvent } from "react";
 import "./styles.css";
-import { SearchContext } from "../SearchResults/SearchContext";
-import { useDebounce } from "../../hooks/useDebounce"
-import { SearchContextType, UsersType } from "../../types/types";
+import { SearchContext } from "../SearchContext";
+import { ISearchContext } from "../../types/types";
+import { useDebounce } from "../../hooks/useDebounce";
 
-const URL = "https://dummyjson.com/users/search?q=";
+// const URL = "https://dummyjson.com/users/search?q=";
 
 
 const SearchForm: React.FC<{}> = () => {
-  //Создание стейта для строки запроса
-  const [query, setQuery] = useState<String>("");
 
+  const [input, setInput] = useState<string>('')
 
   //Получаем данные из контекста
-  const { setUsers, setIsLoad, firstLoad } = useContext<SearchContextType>(SearchContext);
+  const { setQuery, setLoading } = useContext<ISearchContext>(SearchContext);
 
   /* Создаем debounce для строки запроса - учитывается запрос, 
   когда прошло не менее 1 секунды от последнего нажатия клавиши в поле поиска
   */
-  const debounceQuery = useDebounce(query, 700)
-
-  //Асинхронная функция запроса на сервер
-  const fetchUser = async (query: String) => {
-    let response = await fetch(`${URL}${query}`)
-
-    if (response.ok) {
-      let result = (await response.json())
-      setIsLoad(false)
-      setUsers(result.users);
-
-    } else {
-      console.log("Ошибка запроса: " + response.status);
-    }
-  };
+  const debounceQuery = useDebounce(input, 700)
 
   useEffect(() => {
-    if (firstLoad.current) {
-      firstLoad.current = false;
-      return;
-    }
-
-    fetchUser(debounceQuery)
+    setQuery(debounceQuery)
+    // setLoading(false)
   }, [debounceQuery]);
 
-  const handleChange = (e) => {
-    
-    setIsLoad(true)
-    setQuery(e.target.value)
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {    
+    setInput(e.target.value)
+    setLoading(true)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
+    //Блокируем нажатие клавиши Ввода в поисковой строке
     e.preventDefault()
   }
 
-  
-return (
-  <div className="searchForm">
-    <form onSubmit={(e) => handleSubmit(e)}>
-      <input
-        type="text"
-        placeholder="Введите запрос..."
-        value={query}
-        onChange={ (e) => handleChange(e) }      
-      />
-    </form>
-  </div>
-);
+
+  return (
+    <div className="searchForm">
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <input
+          type="search"
+          placeholder="Введите запрос..."
+          value={input}
+          onChange={(e) => handleChange(e)}
+        />
+      </form>
+    </div>
+  );
 }
 
 export default SearchForm

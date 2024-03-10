@@ -1,8 +1,6 @@
 import empty from "../../img/empty.gif"
 
-const Empty = () => {
-   
-
+export const Empty = () => {
    return <div className="empty">
         <h3>Извините, ничего не найдено!</h3>
         <p>Попробуйте другой запрос.</p>
@@ -10,5 +8,3 @@ const Empty = () => {
         
     </div>
 }
-
-export default Empty

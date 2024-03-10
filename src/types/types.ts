@@ -6,16 +6,18 @@ export interface IUser {
     address: {
         city: string,
     }
+    username: string,
+    phone: string
 }
 
 export type UsersType =  IUser[]
 
-
-
-export interface SearchContextType {
-    users: UsersType ,
-    setUsers?: (users: UsersType) => void,
-    isLoad?: boolean,
-    setIsLoad?: (b: boolean)  => (void | undefined),
-    firstLoad?:  boolean
+export interface ISearchContext {
+    users: IUser[],
+    query: string,
+    setQuery: (s: string) => void,
+    loading: boolean,
+    setLoading: (b: boolean) => void,
+    error: string,
+    firstLoad:  boolean
 }

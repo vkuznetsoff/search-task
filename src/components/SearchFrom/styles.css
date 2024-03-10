@@ -20,6 +20,10 @@
     width: 300px;
 }
   
+.searchForm input[type="search"] {
+    width: 300px;
+}
+
 .searchForm input[type="submit"] {
     width: 150px;
 }
